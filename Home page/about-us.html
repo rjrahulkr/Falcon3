@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>about-falcon</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* Variables */
+        :root {
+            --primary-color: #00B5E2;
+            --secondary-color: #eff304;
+            --font-inter: 'Inter', sans-serif;
+            --font-poppins: 'Poppins', sans-serif;
+            --navbar-height-default: 80px;
+            --navbar-height-scrolled: 70px;
+            --transition: all 0.3s ease;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --accent-color: #ffffff;
+        }
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-inter);
+            color: #333;
+            line-height: 1.6;
+            padding-top: var(--navbar-height-default);
+            /* Add padding to prevent content from hiding under navbar */
+        }
+
+        /* Navigation */
+        .navbar {
+            transition: var(--transition);
+            height: var(--navbar-height-default);
+            background-color: rgba(0, 51, 102, 0.95) !important;
+            /* Made more opaque */
+            padding: 0.5rem 1rem;
+            z-index: 1030;
+            /* Ensure navbar stays on top */
+        }
+
+        .navbar.scrolled {
+            height: var(--navbar-height-scrolled);
+            background-color: rgba(0, 51, 102, 0.98) !important;
+            box-shadow: var(--box-shadow);
+        }
+
+        .navbar-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            /* Increased from 700 */
+            font-size: 1.25rem;
+            letter-spacing: 1px;
+            color: var(--secondary-color) !important;
+            padding: 0;
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-brand img {
+            transition: var(--transition);
+            height: 40px;
+            /* Increased from 35px */
+        }
+
+        .navbar.scrolled .navbar-brand img {
+            height: 35px;
+            /* Increased from 30px */
+        }
+
+        .nav-link {
+            font-family: 'Montserrat', sans-serif;
+            position: relative;
+            font-weight: 700;
+            /* Increased from 600 */
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            color: var(--accent-color) !important;
+            transition: var(--transition);
+            font-size: 1rem;
+            /* Added explicit font size */
+        }
+
+        .nav-link:hover {
+            color: var(--secondary-color) !important;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background-color: var(--secondary-color);
+            transition: var(--transition);
+            transform: translateX(-50%);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Dropdown Styles */
+        .dropdown-menu {
+            display: none;
+            /* Changed from block to fix visibility issues */
+            background-color: rgba(0, 51, 102, 0.98);
+            border: none;
+            border-radius: 0.5rem;
+            box-shadow: var(--box-shadow);
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .dropdown:hover>.dropdown-menu {
+            display: block;
+            /* Show on hover */
+        }
+
+        .dropdown-item {
+            color: var(--accent-color);
+            transition: var(--transition);
+            padding: 0.7rem 1rem;
+            border-radius: 0.3rem;
+            font-weight: 600;
+            /* Increased from default */
+            white-space: nowrap;
+        }
+
+        .dropdown-item:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            color: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        /* Consultation Button */
+        .btn-consultation {
+            background-color: var(--secondary-color);
+            color: #003366;
+            font-weight: 700;
+            /* Increased from 600 */
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 2px solid transparent;
+            padding: 0.75rem 1.5rem;
+            /* Increased padding */
+        }
+
+        .btn-consultation:hover {
+            background-color: transparent;
+            color: var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background-color: rgba(0, 51, 102, 0.98);
+                padding: 1rem;
+                border-radius: 0.5rem;
+                margin-top: 0.5rem;
+                max-height: calc(100vh - var(--navbar-height-scrolled));
+                overflow-y: auto;
+            }
+
+            .dropdown-menu {
+                background-color: rgba(3, 85, 167, 0.3);
+                margin-top: 0.5rem;
+            }
+
+            .dropdown-menu.show {
+                display: block;
+            }
+
+            .nav-link {
+                padding: 1rem !important;
+                /* Increased padding for better touch targets */
+                border-radius: 0.3rem;
+            }
+
+            .nav-link:hover {
+                background-color: rgba(255, 215, 0, 0.1);
+            }
+
+            .navbar-toggler {
+                border-color: var(--accent-color);
+                padding: 0.5rem 0.75rem;
+            }
+
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+        }
+
+        /* close-Navbar */
+
+
+        /* Variables */
+
+
+        /* Base Styles */
+        body {
+            font-family: var(--font-inter);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* About Section Styles */
+/* About Section Styles */
+
+.about-header {
+    background: linear-gradient(rgba(116, 138, 186, 0.429), rgba(26, 152, 177, 0.95)),
+        url('about-hero-section.jpeg') center/cover no-repeat fixed;
+    padding: 180px 0 120px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.blue-heading {
+    color: #03153b !important; /* Replaced var(--primary-blue) */
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.blue-heading::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #2563eb; /* Replaced var(--primary-blue) */
+}
+
+.stats-section {
+    background: linear-gradient(135deg, #2563eb, #1e40af); /* Replaced var(--primary-blue) and var(--secondary-blue) */
+    padding: 80px 0;
+    color: white;
+    position: relative;
+    z-index: 1;
+}
+
+.stats-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');
+    z-index: -1;
+    opacity: 0.1;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-number {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fbbf24; /* Replaced var(--accent-gold) */
+    margin-bottom: 10px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.expertise-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.expertise-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(4, 128, 58, 0.15); /* Replaced var(--primary-blue) */
+}
+
+.icon-box {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4f8fde, #d2d6e0); /* Replaced var(--primary-blue) and var(--secondary-blue) */
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+    color: white;
+    font-size: 2rem;
+}
+
+.heritage-points {
+    margin-top: 2rem;
+}
+
+.point-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 1rem;
+}
+
+.point-item i {
+    color: #2563eb; /* Replaced var(--primary-blue) */
+    font-size: 1.2rem;
+}
+
+.commitment-cards .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.commitment-cards .card:hover {
+    transform: translateX(10px);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.15); /* Replaced var(--primary-blue) */
+}
+
+.commitment-cards .card-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: #2563eb; /* Replaced var(--primary-blue) */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991.98px) {
+    .about-header h1 {
+        font-size: 2.5rem;
+    }
+    .blue-heading {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .about-header {
+        padding: 120px 0 80px;
+    }
+    .about-header h1 {
+        font-size: 1.8rem;
+    }
+    .stat-number {
+        font-size: 2.5rem;
+    }
+    .expertise-card {
+        padding: 1.5rem;
+    }
+}
+
+/* Animation Delays */
+.animation-delay-1 {
+    animation-delay: 0.2s;
+}
+
+.animation-delay-2 {
+    animation-delay: 0.4s;
+}
+
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, #00B5E2 0%, #001F3F 100%);
+            color: #ffffff;
+            font-size: 0.9rem;
+            padding: 3rem 0 1.5rem;
+        }
+
+        .footer h5 {
+            color: #e9eef0;
+            font-family: var(--font-poppins);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin-bottom: 1.25rem;
+            letter-spacing: 0.3px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+            opacity: 0.85;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-color);
+            opacity: 1;
+            padding-left: 0.5rem;
+            text-decoration: none;
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .social-link i {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+        }
+
+        .about-text {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        hr {
+            border-color: rgba(255, 255, 255, 0.1);
+            margin: 2rem 0 1rem;
+        }
+
+        .small {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .list-inline-item:not(:last-child) {
+            margin-right: 1.5rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 991.98px) {
+            .navbar-collapse {
+                background-color: rgba(0, 31, 63, 0.95);
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+
+            .terms-container {
+                padding: 1.5rem;
+            }
+
+            .terms-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 767.98px) {
+            .footer {
+                text-align: center;
+            }
+
+            .social-links {
+                align-items: center;
+            }
+
+            .footer-links {
+                margin-bottom: 2rem;
+            }
+
+            .terms-title {
+                font-size: 1.75rem;
+            }
+
+            .terms-list {
+                padding-left: 1rem;
+            }
+        }
+
+        /* footer-close */
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+        <div class="container px-4 px-lg-5">
+            <a class="navbar-brand" href="index.html">
+                <img src="logo2.png" alt="Falcon Financial Education Logo" class="d-inline-block align-text-top me-2">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto my-2 my-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#services" id="navbarDropdownServices" role="button">
+                            Services
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownServices">
+                            <li><a class="dropdown-item" href="#regularServices">Regular</a></li>
+                            <li><a class="dropdown-item" href="#premiumServices">Premium</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownResources" role="button">
+                            Pricing
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownResources">
+                            <li><a class="dropdown-item" href="index.html">Regular Price</a></li>
+                            <li><a class="dropdown-item" href="index.html">Premium Price</a></li>
+                            <!-- <li><a class="dropdown-item" href="#webinars">Webinars</a></li>
+                            <li><a class="dropdown-item" href="#glossary">Financial Glossary</a></li> -->
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about-us.html">About</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center ms-lg-4 mt-3 mt-lg-0">
+                    <a href="#consultation" class="btn btn-consultation rounded-pill px-4 py-2">
+                        <i class="fas fa-calendar-check me-2"></i>Free Consultation
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- About-section -->
+    <!-- About Header -->
+    <!-- About Header Section -->
+<section class="about-header">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 text-center">
+                <h4 style="color: #ffffff;" class="text-primary text-uppercase fw-bold mb-3 animate__animated animate__fadeIn ">About Us</h4>
+                <h1 class="animate__animated animate__fadeInUp">Pioneering Excellence in Indian Financial Markets</h1>
+                <p class="lead text-light mb-4 animate__animated animate__fadeInUp animation-delay-1">Empowering traders and investors with cutting-edge strategies since 1995</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-3 col-6">
+                <div class="stat-item animate__animated animate__fadeIn">
+                    <div class="stat-number" data-count="25000">1000+</div>
+                    <div class="stat-label">Successful Traders</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item animate__animated animate__fadeIn">
+                    <div class="stat-number" data-count="28">10+</div>
+                    <div class="stat-label">Years of Excellence</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item animate__animated animate__fadeIn">
+                    <div class="stat-number" data-count="150">25+</div>
+                    <div class="stat-label">Expert Mentors</div>
+                </div>
+            </div>
+            <div class="col-md-3 col-6">
+                <div class="stat-item animate__animated animate__fadeIn">
+                    <div class="stat-number" data-count="95">87</div>
+                    <div class="stat-label">Success Rate (%)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Content Section -->
+<section class="about-content">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 animate__animated animate__fadeInLeft">
+                <h2 class="section-title blue-heading">Heritage of Excellence</h2>
+                <p class="about-text">
+                    Founded in 1995, Falcon Financial stands as a beacon of trust and excellence in India's financial markets. Our journey began with a vision to democratize trading education and empower individuals with professional-grade trading knowledge. Today, we pride ourselves on being one of India's most respected financial education institutions.
+                </p>
+                <div class="heritage-points">
+                    <div class="point-item">
+                        <i class="fas fa-check-circle text-primary"></i>
+                        <span>SEBI Registered Investment Advisor</span>
+                    </div>
+                    <div class="point-item">
+                        <i class="fas fa-check-circle text-primary"></i>
+                        <span>NSE & BSE Certified Mentors</span>
+                    </div>
+                    <div class="point-item">
+                        <i class="fas fa-check-circle text-primary"></i>
+                        <span>ISO 9001:2015 Certified Institution</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 animate__animated animate__fadeInRight">
+                <h2 class="section-title blue-heading">Our Commitment to Excellence</h2>
+                <p class="about-text">
+                    At Falcon Financial, we combine traditional Indian trading wisdom with modern technical analysis. Our approach integrates time-tested strategies with cutting-edge technology, providing our clients with a comprehensive trading education that's both rooted in tradition and forward-looking.
+                </p>
+                <div class="commitment-cards">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-graduation-cap text-primary"></i>
+                                Advanced Learning Systems
+                            </h5>
+                            <p class="card-text">State-of-the-art trading terminals and real-time market analysis tools</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <i class="fas fa-hands-helping text-primary"></i>
+                                Personalized Mentorship
+                            </h5>
+                            <p class="card-text">One-on-one guidance from experienced traders and market analysts</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Expertise Section -->
+<section class="expertise-section">
+    <div class="container">
+        <div class="row text-center mb-5">
+            <div class="col-lg-8 mx-auto">
+                <h6 class="text-primary text-uppercase fw-bold mb-3">Why Choose Us</h6>
+                <h2 class="section-title blue-heading">Comprehensive Trading Excellence</h2>
+            </div>
+        </div>
+        <div class="row g-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="expertise-card animate__animated animate__fadeInUp">
+                    <div class="icon-box">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Technical Analysis</h3>
+                    <p>Advanced charting techniques and pattern recognition strategies</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="expertise-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+                    <div class="icon-box">
+                        <i class="fas fa-coins"></i>
+                    </div>
+                    <h3>Options Trading</h3>
+                    <p>Professional options strategies and risk management techniques</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="expertise-card animate__animated animate__fadeInUp" style="animation-delay: 0.4s;">
+                    <div class="icon-box">
+                        <i class="fas fa-globe-asia"></i>
+                    </div>
+                    <h3>Global Markets</h3>
+                    <p>International market analysis and trading opportunities</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="expertise-card animate__animated animate__fadeInUp" style="animation-delay: 0.6s;">
+                    <div class="icon-box">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3>Digital Trading</h3>
+                    <p>Modern algorithmic trading and automated systems</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    <!-- Expertise Section -->
+    <section class="team-section">
+        <div class="container">
+            <h2 class="section-title text-center mb-5">What Sets Us Apart</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="expertise-item">
+                        <h3>Expertise</h3>
+                        <p>Our team comprises multiple trading and NISM certified experts, ensuring that you receive
+                            top-tier education from professionals with real-world experience.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="expertise-item">
+                        <h3>Comprehensive Curriculum</h3>
+                        <p>Our educational programs cover a wide range of financial topics, from equity and commodity
+                            trading to Forex, options, and the exciting world of cryptocurrencies.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="expertise-item">
+                        <h3>Practical Insights</h3>
+                        <p>We go beyond theoretical knowledge, incorporating practical examples and real-world scenarios
+                            to enhance your understanding and application of financial concepts.</p>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="expertise-item">
+                        <h3>Accessible Learning</h3>
+                        <p>Our commitment to accessibility means that our courses are designed for individuals at
+                            various levels of expertise, from beginners to experienced investors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- close about-section -->
+
+
+
+
+
+    <!-- Footer -->
+    <footer class="footer py-3">
+        <div class="container">
+            <div class="row g-3">
+                <div class="col-lg-4 col-md-6">
+                    <h5 class="mb-2">About Falcon Financial</h5>
+                    <p class="about-text mb-2">Transforming financial futures through expert-led education. We blend
+                        market insights with practical wisdom to help you master wealth creation.</p>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/company/falcon-financial" class="social-link" target="_blank">
+                            <i class="fab fa-linkedin"></i> Follow us on LinkedIn
+                        </a>
+                        <a href="https://instagram.com/falconfinancial" class="social-link" target="_blank">
+                            <i class="fab fa-instagram"></i> Follow us on Instagram
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h5 class="mb-2">Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="index.html">Services</a></li>
+                        <li><a href="index.html">Resources</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-2">Our Services</h5>
+                    <ul class="footer-links">
+                        <li><a href="#">Financial Consulting</a></li>
+                        <li><a href="#">Trading Education</a></li>
+                        <li><a href="#">Investment Strategies</a></li>
+                        <li><a href="#">Retirement Planning</a></li>
+                        <li><a href="#">Tax Optimization</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="mb-2">Contact</h5>
+                    <ul class="footer-links mb-0">
+                        <li><a href="tel:+919083287059"><i class="fas fa-phone me-2"></i>+91-9083287059</a></li>
+                        <li><a href="mailto:info@falconfinancial.com"><i
+                                    class="fas fa-envelope me-2"></i>info@falconfinancial.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-2">
+            <div class="row align-items-center g-2">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0 small">&copy; 2024 Falcon Financial Education</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item"><a href="privacy.html">Privacy</a></li>
+                        <li class="list-inline-item"><a href="term-condition.html">Terms & Conditions</a></li>
+                        <!-- <li class="list-inline-item"><a href="/sitemap">Sitemap</a></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const navbar = document.getElementById('mainNav');
+            let lastScroll = 0;
+            let isScrolled = false;
+
+            // Initialize navbar state on page load
+            if (window.pageYOffset > 50) {
+                navbar.classList.add('scrolled');
+                isScrolled = true;
+            }
+
+            // Throttle scroll event
+            let ticking = false;
+            window.addEventListener('scroll', function () {
+                if (!ticking) {
+                    window.requestAnimationFrame(function () {
+                        const currentScroll = window.pageYOffset;
+
+                        if (currentScroll > 50) {
+                            if (!isScrolled) {
+                                navbar.classList.add('scrolled');
+                                isScrolled = true;
+                            }
+                        } else {
+                            if (isScrolled) {
+                                navbar.classList.remove('scrolled');
+                                isScrolled = false;
+                            }
+                        }
+
+                        lastScroll = currentScroll;
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+
+            // Enhanced dropdown handling
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            const handleDropdown = (e) => {
+                const isMobile = window.innerWidth < 992;
+                if (isMobile) {
+                    e.preventDefault();
+                    e.stopPropagation();
+
+                    const currentDropdown = e.currentTarget.nextElementSibling;
+
+                    // Close other dropdowns
+                    dropdownToggles.forEach(toggle => {
+                        const dropdownMenu = toggle.nextElementSibling;
+                        if (dropdownMenu !== currentDropdown) {
+                            dropdownMenu.classList.remove('show');
+                        }
+                    });
+
+                    currentDropdown.classList.toggle('show');
+                }
+            };
+
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', handleDropdown);
+            });
+
+            // Close mobile menu and dropdowns when clicking outside
+            document.addEventListener('click', function (e) {
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                const navbarToggler = document.querySelector('.navbar-toggler');
+
+                if (!navbarCollapse.contains(e.target) && !navbarToggler.contains(e.target)) {
+                    navbarCollapse.classList.remove('show');
+                    dropdownToggles.forEach(toggle => {
+                        toggle.nextElementSibling.classList.remove('show');
+                    });
+                }
+            });
+
+            // Active state handling
+            const navLinks = document.querySelectorAll('.nav-link');
+            const currentPath = window.location.pathname;
+
+            navLinks.forEach(link => {
+                // Set active state based on current URL
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+
+                link.addEventListener('click', function (e) {
+                    if (!this.classList.contains('dropdown-toggle')) {
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                });
+            });
+
+            // Optimize resize handling
+            let resizeTimeout;
+            window.addEventListener('resize', function () {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(function () {
+                    const isMobile = window.innerWidth < 992;
+                    if (!isMobile) {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.classList.remove('show');
+                        });
+                        document.querySelector('.navbar-collapse').classList.remove('show');
+                    }
+                }, 250);
+            });
+        });
+
+        // Navbar scroll behavior
+        window.addEventListener('scroll', function () {
+            if (window.scrollY > 50) {
+                document.getElementById('mainNav').style.padding = '0.5rem 0';
+            } else {
+                document.getElementById('mainNav').style.padding = '1rem 0';
+            }
+        });
+    </script>
+
+</body>
+
+</html>
